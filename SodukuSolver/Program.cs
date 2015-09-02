@@ -15,7 +15,10 @@ namespace SodukuSolver
         static void Main(string[] args)
         {
             Cell[] sodukuGameData = new Cell[80];
+            sodukuGameData = InitializeGameDataRandomly();
+            PrintGame(sodukuGameData);
 
+            return;
             if (SolveSolution(sodukuGameData))
             {
                 PrintGame(sodukuGameData);
@@ -24,9 +27,58 @@ namespace SodukuSolver
             return;
         }
 
+        private static Cell[] InitializeGameDataRandomly()
+        {
+            Cell[] sodukuGameData = Program.CreateBoard();
+            Random rnd = new Random();
+
+            for (int i = 0; i < sodukuGameData.Length; i = i + rnd.Next(1, 9))//only fill some cells
+            {
+                sodukuGameData[i].Value = rnd.Next(1, 9);
+            }
+
+            return sodukuGameData;
+        }
+
+
         public static void PrintGame(Cell[] sodukuGameData)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Printing game");
+            bool isNewRow = false;
+
+            for (int i = 0; i < sodukuGameData.Length; i++)
+            {
+                string valueToDisplay = sodukuGameData[i].Value > 0 ?
+                    sodukuGameData[i].Value.ToString() : " ";
+
+                Console.Write("{0} ", valueToDisplay);
+
+                if (IsNewRow(i))
+                {
+                    isNewRow = true;
+                    Console.WriteLine("");
+                    Console.WriteLine("--------------------------"); 
+                }
+                else if (IsNewColumn(i))
+                {
+                    Console.Write(" | " );
+                }
+
+                isNewRow = false;
+            }
+
+            Console.WriteLine("");
+
+        }
+
+        private static bool IsNewRow(int i)
+        {
+            return (i + 1) % 9 == 0;
+        }
+
+        private static bool IsNewColumn(int i)
+        {
+            return (i + 1) % 3 == 0;
         }
 
         public static bool SolveSolution(Cell[] sodukuGameData)
