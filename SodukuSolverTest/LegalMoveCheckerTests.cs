@@ -50,7 +50,6 @@ namespace SodukuSolverTest
             Assert.IsTrue(LegalMoveChecker.IsRowLegal(board[1], board));
         }
 
-
         [TestMethod]
         public void IsColumnLegal_NumberExistsTwice_ReturnsFalse()
         {
@@ -60,6 +59,27 @@ namespace SodukuSolverTest
             board[10].Value = 4;
 
             Assert.IsFalse(LegalMoveChecker.IsColumnLegal(board[1], board));
+        }
+        
+        [TestMethod]
+        public void IsBoxLegal_BoxSingleValue_ReturnsTrue()
+        {
+            //Arrange
+            var board = Program.CreateBoard();
+            board[1].Value = 4;
+
+            Assert.IsTrue(LegalMoveChecker.IsBoxLegal(board[1], board));
+        }
+
+        [TestMethod]
+        public void IsBoxLegal_BoxDupeValue_ReturnsFalse()
+        {
+            //Arrange
+            var board = Program.CreateBoard();
+            board[11].Value = 4;
+            board[1].Value = 4;
+
+            Assert.IsFalse(LegalMoveChecker.IsBoxLegal(board[1], board));
         }
     }
 }

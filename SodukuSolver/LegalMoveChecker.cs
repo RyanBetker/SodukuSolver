@@ -32,16 +32,11 @@ namespace SodukuSolver
 
             //is row legal?            
             if (IsRowLegal(trialCell, trialGame))
-            {
-                return true;
-
-                //is column legal?
-                int startingIndexOfColumn = trialCell.PositionInArray % 9;
-                
+            {                
                 if (IsColumnLegal(trialCell, trialGame))
                 {
                     //is box legal?
-                    if(IsBoxLegal(trialGame))
+                    if(IsBoxLegal(trialCell, trialGame))
                     {
                         isLegalMove = true;
                     }                    
@@ -53,32 +48,33 @@ namespace SodukuSolver
 
         public static bool IsColumnLegal(Cell trialCell, Cell[] trialGame)
         {
-            return true;
-            //TODO: get all indexes and distinct them (like above)
-            throw new NotImplementedException();
-            //can call into CellValuesAreUnique
+            int startingIndexOfColumn = trialCell.PositionInArray % 9;
+
+            List<Cell> cellsInColumn = new List<Cell>(9);            
+            //get all cells in the column
+            for (int i = startingIndexOfColumn; i < Program.GRID_SIZE; i = i + 9)
+            {
+                cellsInColumn.Add(trialGame[i]);
+            }
+
+            if (CellValuesAreUnique(cellsInColumn))
+            {
+                return true;
+            }
+            return false;
         }
 
         public static bool IsRowLegal(Cell trialCell, Cell[] trialGame)
         {
-            bool isLegalMove;
-
             int startingIndexOfRow = trialCell.PositionInArray - trialCell.XCoordinates;
-            //how about when it's 2? or 8? Should be 0
-            //when 9-17, should be 9.
 
             var cellsInRow = trialGame.Skip(startingIndexOfRow).Take(9).ToList();
 
-            if (CellValuesAreUnique(cellsInRow)) //(cellsInRow are not unique)
+            if (CellValuesAreUnique(cellsInRow))
             {
-                isLegalMove = false;
+                return true;
             }
-            else
-            {
-                isLegalMove = true;
-            }
-
-            return isLegalMove;
+            return false;
         }
 
         private static bool CellValuesAreUnique(List<Cell> cellsInRow)
@@ -86,24 +82,21 @@ namespace SodukuSolver
             var filledCells = cellsInRow.Where(c => c.Value > 0);
             var duplicatedGroups = filledCells.GroupBy(c => c.Value).Where(g => g.Count() > 1);
 
-            return duplicatedGroups.Any();
+            return duplicatedGroups.Any() == false;
         }
-
-
-        public static bool IsBoxLegal(Cell[] trialGame)
+        
+        public static bool IsBoxLegal(Cell trialCell, Cell[] trialGame)
         {
-            bool isLegalMove;
-            int startingIndexOfBox = 0;
+            int startingIndexOfBox = trialCell.PositionInArray;
             //get all cell indexes in the box
 
             //save off all cells. Are they unique?
             List<Cell> cellsInBox = GetCellsInBox(trialGame, startingIndexOfBox);
             if (CellValuesAreUnique(cellsInBox))
             {
-                isLegalMove = false;
+                return true;
             }
-            isLegalMove = true;
-            return isLegalMove;
+            return false;
         }
 
         private static List<Cell> GetCellsInBox(Cell[] trialGame, int startingIndexOfBox)
