@@ -18,7 +18,6 @@ namespace SodukuSolver
             sodukuGameData = InitializeGameDataRandomly();
             PrintGame(sodukuGameData);
 
-            return;
             if (SolveSolution(sodukuGameData))
             {
                 PrintGame(sodukuGameData);
@@ -97,7 +96,7 @@ namespace SodukuSolver
                 Cell candidateCell = GetEmptyCell(sodukuGameData);
 
                 // Before we try a value in it, Is Legal Move?
-                if (IsLegalMove(candidateCell, sodukuGameData, trialValue))
+                if (LegalMoveChecker.IsLegalMove(candidateCell, sodukuGameData, trialValue))
                 {
                     SetCell(candidateCell, sodukuGameData, trialValue);
                     if (SolveSolution(sodukuGameData))
@@ -149,17 +148,12 @@ namespace SodukuSolver
 
         public static void ClearCell(Cell[] sodukuGameData, Cell candidateCell)
         {
-            throw new NotImplementedException();
+            candidateCell.Value = 0;
         }
 
-        public static void SetCell(Cell emptyCell, Cell[] sodukuGameData, int trialValue)
+        public static void SetCell(Cell emptyCell, Cell[] sodukuGameData, int value)
         {
-            throw new NotImplementedException();
-        }
-
-        public static bool IsLegalMove(Cell emptyCell, Cell[] sodukuGameData, int trialValue)
-        {
-            throw new NotImplementedException();
+            emptyCell.Value = value;
         }
 
         public static Cell GetEmptyCell(Cell[] sodukuGameData)
