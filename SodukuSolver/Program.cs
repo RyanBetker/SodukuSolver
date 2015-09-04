@@ -106,7 +106,6 @@ namespace SodukuSolver
                 Cell candidateCell = GetEmptyCell(sodukuGameData);
                 System.Diagnostics.Trace.WriteLine(String.Format("Candidate cell index: {0}", candidateCell.PositionInArray));
 
-                var xx = candidateCell.XCoordinates;//just for debugging point
                 while (!solved && trialValue <= MAX_VALUE)
                 {
                     // Before we try a value in it, Is Legal Move?
@@ -156,7 +155,7 @@ namespace SodukuSolver
 
         public static bool IsFull(Cell[] sodukuGameData)
         {
-            //if any don't exist
+            //if any cells don't exist
             if (sodukuGameData.Any(c => c == null))
             {
                 return false;
