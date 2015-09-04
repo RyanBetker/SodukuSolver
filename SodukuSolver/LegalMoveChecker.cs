@@ -8,11 +8,13 @@ namespace SodukuSolver
 {
     public class LegalMoveChecker
     {
-        public static bool IsLegalMove(Cell trialCell, IReadOnlyCollection<Cell> sodukuGameData, int trialValue)
+        public static bool IsLegalMove(Cell cell, IReadOnlyCollection<Cell> sodukuGameData, int trialValue)
         {
             bool isLegalMove = false;
             Cell[] trialGame = Program.CreateBoard();
 
+            //Save off cell, as to not affect the original
+            Cell trialCell = new Cell() { Value = cell.Value, XCoordinates = cell.XCoordinates, YCoordinates = cell.YCoordinates };
             //copy, so we don't change the original data
             trialGame = sodukuGameData.ToArray();
 

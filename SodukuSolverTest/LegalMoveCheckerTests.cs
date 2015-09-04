@@ -84,7 +84,7 @@ namespace SodukuSolverTest
         }
 
         [TestMethod]
-        public void IsBoxLegal_BoxDupeValue_ReturnsFalse()
+        public void IsBoxLegal_Box9DupeValue_ReturnsFalse()
         {
             //Arrange
             var board = Program.CreateBoard();
@@ -94,6 +94,21 @@ namespace SodukuSolverTest
             //Act
             bool legal = LegalMoveChecker.IsBoxLegal(board[70], board);
             
+            //Assert
+            Assert.IsFalse(legal);
+        }
+
+        [TestMethod]
+        public void IsBoxLegal_Box1DupeValue_ReturnsFalse()
+        {
+            //Arrange
+            var board = Program.CreateBoard();
+            board[1].Value = 8;
+            board[20].Value = 8;
+
+            //Act
+            bool legal = LegalMoveChecker.IsBoxLegal(board[20], board);
+
             //Assert
             Assert.IsFalse(legal);
         }
