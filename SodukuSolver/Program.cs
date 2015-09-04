@@ -58,7 +58,6 @@ namespace SodukuSolver
         public static void PrintGame(Cell[] sodukuGameData)
         {
             Console.WriteLine("Printing game");
-            bool isNewRow = false;
 
             for (int i = 0; i < sodukuGameData.Length; i++)
             {
@@ -69,7 +68,6 @@ namespace SodukuSolver
 
                 if (IsNewRow(i))
                 {
-                    isNewRow = true;
                     Console.WriteLine("");
                     Console.WriteLine("--------------------------"); 
                 }
@@ -77,8 +75,6 @@ namespace SodukuSolver
                 {
                     Console.Write(" | " );
                 }
-
-                isNewRow = false;
             }
 
             Console.WriteLine("");
@@ -129,26 +125,6 @@ namespace SodukuSolver
                 }
             }
             return false;
-
-            //Do 
-            //Try next possible solution
-
-            //Possible Solution:
-            //GetEmptyCell
-            //If Legal to put next value in
-            //PutNumberInCell
-            //Test if solved
-            //If not, put next number in
-
-
-            //While not having solution
-
-
-            //my solution was:
-            //Test columns for solution
-            //Test rows
-            //Test boxes
-
         }
 
         public static Cell[] CreateBoard()
