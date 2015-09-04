@@ -44,11 +44,6 @@ namespace SodukuSolver
 
                     if (LegalMoveChecker.IsLegalMove(currentCell, sodukuGameData, cellValue))
                     {
-#if DEBUG
-                        PrintGame(sodukuGameData);
-                        Console.WriteLine("\n\n");
-
-#endif
                         currentCell.Value = cellValue;
                         isLegalMove = true;
                     }
