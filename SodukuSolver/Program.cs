@@ -36,10 +36,11 @@ namespace SodukuSolver
                 bool isLegalMove = false;
                 int counter = 0;
 
+                Cell currentCell = sodukuGameData[i];
+
                 do
                 {
                     int cellValue = rnd.Next(1, 9);
-                    Cell currentCell = sodukuGameData[i];
 
                     if (LegalMoveChecker.IsLegalMove(currentCell, sodukuGameData, cellValue))
                     {
