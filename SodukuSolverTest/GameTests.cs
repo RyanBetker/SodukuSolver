@@ -24,6 +24,17 @@ namespace SodukuSolverTest
             Assert.AreEqual(8, board[80].XCoordinates);            
         }
 
+        [TestMethod]
+        public void SolveSolution_BoardWith2Numbers_GetSolved()
+        {
+            var board = Program.CreateBoard();
+            board[0].Value = 2;
+            board[2].Value = 3;
+
+            bool solved = Program.SolveSolution(board);
+
+            Assert.AreEqual(true, solved);
+        }
 
         [TestMethod]
         public void GetEmptyCell_EmptyBoard_ReturnsFirstCell()

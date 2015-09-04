@@ -87,16 +87,34 @@ namespace SodukuSolver
         
         public static bool IsBoxLegal(Cell trialCell, Cell[] trialGame)
         {
-            int startingIndexOfBox = trialCell.PositionInArray;
+            int startingIndexOfBox = GetStartingIndexOfBox(trialCell);
+            
             //get all cell indexes in the box
+            List<Cell> cellsInBox = GetCellsInBox(trialGame, startingIndexOfBox);
 
             //save off all cells. Are they unique?
-            List<Cell> cellsInBox = GetCellsInBox(trialGame, startingIndexOfBox);
             if (CellValuesAreUnique(cellsInBox))
             {
                 return true;
             }
             return false;
+        }
+
+        public static int GetStartingIndexOfBox(Cell trialCell)
+        {
+            int startingIndexOfBox = 0;
+            const int GRID_LENGTH = Program.MAX_VALUE;
+
+            //get starting column of box
+            startingIndexOfBox = trialCell.PositionInArray - (trialCell.PositionInArray % 3);
+
+            //get starting row of box
+            int startingRow = trialCell.PositionInArray / GRID_LENGTH;
+            startingIndexOfBox -= 9 * (startingRow % 3);//make it be the top row of the grid (either 0, 3, or 6)
+
+            //Remember to subtract one back from actual positions :)
+
+            return startingIndexOfBox;
         }
 
         private static List<Cell> GetCellsInBox(Cell[] trialGame, int startingIndexOfBox)

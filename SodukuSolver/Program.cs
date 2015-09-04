@@ -33,7 +33,22 @@ namespace SodukuSolver
 
             for (int i = 0; i < sodukuGameData.Length; i = i + rnd.Next(1, 9))//only fill some cells
             {
-                sodukuGameData[i].Value = rnd.Next(1, 9);
+                bool isLegalMove = false;
+                int counter = 0;
+
+                do
+                {
+                    int cellValue = rnd.Next(1, 9);
+                    Cell currentCell = sodukuGameData[i];
+
+                    if (LegalMoveChecker.IsLegalMove(currentCell, sodukuGameData, cellValue))
+                    {
+                        currentCell.Value = cellValue;
+                        isLegalMove = true;
+                    }
+                    counter++;
+
+                } while (isLegalMove == false && counter < 5);//prevent infinite loop
             }
 
             return sodukuGameData;
@@ -148,7 +163,7 @@ namespace SodukuSolver
 
         public static void ClearCell(Cell[] sodukuGameData, Cell candidateCell)
         {
-            candidateCell.Value = 0;
+            sodukuGameData[candidateCell.PositionInArray].Value = 0;
         }
 
         public static void SetCell(Cell emptyCell, Cell[] sodukuGameData, int value)

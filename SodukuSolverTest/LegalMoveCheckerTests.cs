@@ -47,7 +47,11 @@ namespace SodukuSolverTest
             board[2].Value = 3;
             board[8].Value = 1;
 
-            Assert.IsTrue(LegalMoveChecker.IsRowLegal(board[1], board));
+            //Act
+            bool legal = LegalMoveChecker.IsRowLegal(board[1], board);
+
+            //Assert
+            Assert.IsTrue(legal);
         }
 
         [TestMethod]
@@ -58,7 +62,11 @@ namespace SodukuSolverTest
             board[1].Value = 4;
             board[10].Value = 4;
 
-            Assert.IsFalse(LegalMoveChecker.IsColumnLegal(board[1], board));
+            //Act
+            bool legal = LegalMoveChecker.IsColumnLegal(board[1], board);
+
+            //Assert
+            Assert.IsFalse(legal);
         }
         
         [TestMethod]
@@ -68,7 +76,11 @@ namespace SodukuSolverTest
             var board = Program.CreateBoard();
             board[1].Value = 4;
 
-            Assert.IsTrue(LegalMoveChecker.IsBoxLegal(board[1], board));
+            //Act
+            bool legal = LegalMoveChecker.IsBoxLegal(board[1], board);
+
+            //Assert
+            Assert.IsTrue(legal);
         }
 
         [TestMethod]
@@ -76,10 +88,48 @@ namespace SodukuSolverTest
         {
             //Arrange
             var board = Program.CreateBoard();
-            board[11].Value = 4;
-            board[1].Value = 4;
+            board[80].Value = 4;
+            board[70].Value = 4;
 
-            Assert.IsFalse(LegalMoveChecker.IsBoxLegal(board[1], board));
+            //Act
+            bool legal = LegalMoveChecker.IsBoxLegal(board[70], board);
+            
+            //Assert
+            Assert.IsFalse(legal);
+        }
+
+        [TestMethod]
+        public void GetStartingIndexOfBox_TopLeftOfBox_ReturnsSame()
+        {
+            //Arrange
+            var board = Program.CreateBoard();
+            //Act
+            int index = LegalMoveChecker.GetStartingIndexOfBox(board[0]);           
+            //Assert
+            Assert.AreEqual(0, index);
+        }
+
+        [TestMethod]
+        public void GetStartingIndexOfBox_MiddleOfBox_ReturnsTopLeft()
+        {
+            //Arrange
+            var board = Program.CreateBoard();
+            //Act
+            int index = LegalMoveChecker.GetStartingIndexOfBox(board[37]);
+            //Assert
+            Assert.AreEqual(27, index);
+        }
+
+
+        [TestMethod]
+        public void GetStartingIndexOfBox_BottomRightOfBox_ReturnsTopLeft()
+        {
+            //Arrange
+            var board = Program.CreateBoard();
+            //Act
+            int index = LegalMoveChecker.GetStartingIndexOfBox(board[80]);
+            //Assert
+            Assert.AreEqual(60, index);
         }
     }
 }
