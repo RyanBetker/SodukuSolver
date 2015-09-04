@@ -47,7 +47,7 @@ namespace SodukuSolver
 #if DEBUG
                         PrintGame(sodukuGameData);
                         Console.WriteLine("\n\n");
-                        
+
 #endif
                         currentCell.Value = cellValue;
                         isLegalMove = true;
@@ -75,11 +75,11 @@ namespace SodukuSolver
                 if (IsNewRow(i))
                 {
                     Console.WriteLine("");
-                    Console.WriteLine("--------------------------"); 
+                    Console.WriteLine("--------------------------");
                 }
                 else if (IsNewColumn(i))
                 {
-                    Console.Write(" | " );
+                    Console.Write(" | ");
                 }
             }
 
@@ -104,33 +104,34 @@ namespace SodukuSolver
             {
                 solved = true;
             }
-
-            int trialValue = MIN_VALUE;
-
-            while (!solved && trialValue <= MAX_VALUE)
+            else
             {
+                int trialValue = MIN_VALUE;
                 //Get first empty cell. 
                 Cell candidateCell = GetEmptyCell(sodukuGameData);
+                System.Diagnostics.Trace.WriteLine(String.Format("Candidate cell index: {0}", candidateCell.PositionInArray));
 
-                // Before we try a value in it, Is Legal Move?
-                if (LegalMoveChecker.IsLegalMove(candidateCell, sodukuGameData, trialValue))
+                var xx = candidateCell.XCoordinates;//just for debugging point
+                while (!solved && trialValue <= MAX_VALUE)
                 {
-                    SetCell(candidateCell, sodukuGameData, trialValue);
-                    if (SolveSolution(sodukuGameData))
+                    // Before we try a value in it, Is Legal Move?
+                    if (LegalMoveChecker.IsLegalMove(candidateCell, sodukuGameData, trialValue))
                     {
-                        solved = true;
+                        SetCell(candidateCell, sodukuGameData, trialValue);
+                        if (SolveSolution(sodukuGameData))
+                        {
+                            solved = true;
+                        }
+                        else
+                        {
+                            ClearCell(sodukuGameData, candidateCell);
+                        }
                     }
-                    else
-                    {
-                        ClearCell(sodukuGameData, candidateCell);
-                    }
-                }
-                else
-                {
-                    trialValue++;
-                }
+
+                    trialValue++;//increment if not legal or not yet solved from deeper numbers
+                } 
             }
-            return false;
+            return solved;
         }
 
         public static Cell[] CreateBoard()
